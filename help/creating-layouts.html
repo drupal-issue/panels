@@ -1,0 +1,60 @@
+<h2>Creating your own layout in your theme</h2>
+<p>In our case we wanted something a bit unusual. 2 main columns and then within the first a brick effect. Like this:-</p>
+<p><div class="help-box"><img src="path:images/100002010000018E0000013B9E4CDF12.png"></img></div>We could do it by creating a 'mini-panel' for the text and blog list in the middle, but we chose the other way. Creating our own.</p>
+<p>Panels allows you to easily create your own layouts inside your theme. In order to do this, it's best to copy an example over from the Panels code. Here's what is needed:-</p>
+<ul>
+  <li>Copy a layout from panels. It's inside panels &gt; plugins &gt; layouts. We took twocol</li>
+  <li>Place this inside your theme in a folder called 'layouts' and give it a different name</li>
+  <li>Tell your theme about it by updating you MY_THEME.info file</li>
+  <li>Refresh your cache</li>
+</ul>
+
+<p>Step by step, this is what we did</p>
+<p><div class="help-box"><img src="path:images/10000000000001000000001BAC5E9B7C.png"></img></div>We went to layouts and copied the twocol layout folder to our theme</p>
+<p><div class="help-box"><img src="path:images/100000000000006700000062B05874B3.png"></img></div>We then renamed all of the files to twocol-left-twocol (or whatever name you want), and we changed the image file to reflect our layout. That image file is shown in the layout dialogs in Panels.</p>
+<p><div class="help-box"><img src="path:images/10000000000001FF0000005C5D5B09F6.png"></img></div></p>
+<p>The *.inc file is used to define this layout. You simply need to put in your relevant values:-</p>
+<p>&lt;?php</p>
+<p>// Plugin definition</p>
+<p>$plugin = array(</p>
+<p>'title' =&gt; t('Two column with first column two column'),</p>
+<p>'category' =&gt; t('Columns: 2'),</p>
+<p>'icon' =&gt; 'twocol-left-twocol.png',</p>
+<p>'theme' =&gt; 'twocol-left-twocol',</p>
+<p>'css' =&gt; 'twocol-left-twocol.css',</p>
+<p>'panels' =&gt; array(</p>
+<p>'left-top' =&gt; t('Left side top'),</p>
+<p>'left-middle-left' =&gt; t('Left side middle left'),</p>
+<p>'left-middle-right' =&gt; t('Left side middle right'),</p>
+<p>'left-bottom' =&gt; t('Left side bottom'),</p>
+<p>'right' =&gt; t('Right side')</p>
+<p>),</p>
+<p>);</p>
+<p>The $plugin definition (I think) is standard of Chaos Tools and allows you to define the necessary information for this layout. It's just a simple PHP array. You can change the title, icon, theme and css to reflect your layout and layout files. </p>
+<p>The 'panels' array defines each of the regions/areas within the panel. Here we added left-top, left-middle-left, left-middle-right and left-bottom. These become variables (inside $content) used in your *.tpl.php file which is shown next.</p>
+<p>We then edit the layout file which is the twocol-left-twocol.tpl.php file. It looks like this:-</p>
+<p>&lt;div class=&quot;panel-display panel-2col clear-block&quot; &lt;?php if (!empty($css_id)) { print &quot;id=\&quot;$css_id\&quot;&quot;; } ?&gt;&gt;</p>
+<p>&lt;div class=&quot;panel-panel panel-col-first&quot;&gt;</p>
+<p>&lt;div class=&quot;inside&quot;&gt;</p>
+<p>&lt;div class=&quot;panel-first-col-top&quot;&gt;&lt;?php print $content['left-top']; ?&gt;&lt;/div&gt;</p>
+<p>&lt;div class=&quot;panel-first-col-middle&quot;&gt;</p>
+<p>&lt;div class=&quot;left&quot;&gt;&lt;?php print $content['left-middle-left']; ?&gt;&lt;/div&gt;</p>
+<p>&lt;div class=&quot;right&quot;&gt;&lt;?php print $content['left-middle-right']; ?&gt;&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class=&quot;panel-first-col-bottom&quot;&gt;&lt;?php print $content['left-bottom']; ?&gt;&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p></p>
+<p>&lt;div class=&quot;panel-panel panel-col-last&quot;&gt;</p>
+<p>&lt;div class=&quot;inside&quot;&gt;&lt;?php print $content['right']; ?&gt;&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p></p>
+<p>This is just the HTML layout of the panel. You can see the variables for left-top, left-middle-left etc. coming in as values inside $content (e.g. $content['left-top']). So using HTML floating DIVs you can create a layout of your choosing with the content coming from the panels.</p>
+<p></p>
+<p>To help you along this is what it looks like visually (with the CSS classes shown in the DIVs above)</p>
+<p><div class="help-box"><img src="path:images/100002010000015F0000011E4CBCCC6E.png"></img></div></p>
+<p>Once you're done, update your MY_THEME.info file to tell panels where to find the layouts</p>
+<p><div class="help-box"><img src="path:images/100000000000023C00000038E8093F58.png"></img></div>Flush your cache, and you'll see your template right there inside 'layouts' (inside the panel variant tabs as described above):-</p>
+<p><div class="help-box"><img src="path:images/100000000000024E0000012BD19CBE08.png"></img></div>You can select it and click continue. Panels will take all your current content (which was in Two column) and ask you where you want it in your new layout:-</p>
+<p><div class="help-box"><img src="path:images/10000000000001AC000001B59E35FFC1.png"></img></div>You can always go into Content afterwards and move it around &#x2013; dragging and dropping from any content area to any other content area.</p>

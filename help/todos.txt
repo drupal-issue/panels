@@ -1,0 +1,4 @@
+
+x) The images from http://www.olamalu.com/content/our-guide-drupal-panels should
+be downloaded, size optimized, and included in the docs.
+

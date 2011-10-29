@@ -1,0 +1,52 @@
+<h2>Arguments passed into your own contexts</h2>
+<p>If you want URL argument data passed into your contexts, you need to create a specific plugin for that argument and then link it to your context. Our new folder layout looks like this.</p>
+<p><div class="help-box"><img src="path:images/10000000000000E0000000941607F56B.png"></img></div></p>
+<p>We don't need to change our MYMODULE_ctools_plugin_directory($module, $plugin) &#x2013; because we are getting the value of $plugin as 'arguments' , which if you see above points to this directory.</p>
+<p>We now create the necessary code for datecontext_arg.inc</p>
+<p>&lt;?php</p>
+<div><code></code></div>
+<div><code>/**</code></div>
+<div><code>* Plugins are described by creating a $plugin array which will be used</code></div>
+<div><code>* by the system that includes this file.</code></div>
+<div><code>*/</code></div>
+<div><code>$plugin = array(</code></div><div><code>'title' =&gt; t(&quot;Datecontext arg&quot;),</code></div>
+<div><code>// keyword to use for %substitution</code></div>
+<div><code>'keyword' =&gt; 'datecontext',</code></div>
+<div><code>'description' =&gt; t('Creates a date context from the argument'),</code></div>
+<div><code>'context' =&gt; 'olamalu_rota_context_create_datecontext_arg',</code></div>
+<div><code>// 'settings form' =&gt; 'simplecontext_arg_settings_form',</code></div>
+<div><code></code></div>
+<div><code>// placeholder_form is used in panels preview, for example, so we can</code></div>
+<div><code>// preview without getting the arg from a URL</code></div>
+<div><code>'placeholder form' =&gt; array(</code></div>
+<div><code>'#type' =&gt; 'textfield',</code></div>
+<div><code>'#description' =&gt; t('Enter the datecontext argument'),</code></div>
+<div><code>),</code></div>
+<div><code>);</code></div>
+<div><code></code></div>
+<div><code>/**</code></div>
+<div><code>* Get the simplecontext context using the arg. In this case we're just going</code></div>
+<div><code>* to manufacture the context from the data in the arg, but normally it would</code></div>
+<div><code>* be an API call, db lookup, etc.</code></div>
+<div><code>*/</code></div>
+<div><code>function olamalu_rota_context_create_datecontext_arg($arg = NULL, $conf = NULL, $empty = FALSE) {</code></div>
+<div><code>// If $empty == TRUE it wants a generic, unfilled context.</code></div>
+<div><code>if ($empty) {</code></div>
+<div><code>return ctools_context_create_empty('datecontext');</code></div>
+<div><code>}</code></div>
+<div><code>// Do whatever error checking is required, returning FALSE if it fails the test</code></div>
+<div><code>if (empty($arg)) {</code></div>
+<div><code>return FALSE;</code></div>
+<div><code>}</code></div>
+<div><code>try {</code></div>
+<div><code>date_create($arg);</code></div>
+<div><code>} catch (Exception $e) {</code></div>
+<div><code>return FALSE;</code></div>
+<div><code>}</code></div>
+<div><code>return ctools_context_create('datecontext', $arg);</code></div>
+<div><code>}</code></div>
+<div><code></code></div>
+
+<p>(You'll see we copied this from the ctools plugin examples).</p><p>Basically stepping through this code &#x2013; the first array defines the plugin ($plugin). The 'context' key points to the function olamalu_rota_context_create_datecontext_arg, which is where the context data is created.</p>
+<p>There's not much to do, as we already have a context (datecontext created above), so we simply use ctools functions to create our context using that. Note that we need a date to be created from the argument so we don't validate (i.e. we return FALSE) if we can't create a date.</p>
+<p>Flush the cache and you should be able to assign arguments to this context.</p>

@@ -1,0 +1,11 @@
+<h2>Passing in arguments from the URL</h2>
+<p>Sometimes, instead of your context coming from data within the panel, you'll specifically want to pass in arguments via your URL. So for example if I want to pass in a specific date to my page (or calendar), I could put http://www.mydomain.com/path/to/page/2011-12-01 (where the last argument is my date).</p>
+<p></p>
+<p>In order to have this date passed into my panel as a context, I need to specifically tell the panel that I have an argument coming in and that it should be a context. This is done in Settings &gt; Basic (on a normal panel page. I'm not sure if this is possible for templates).</p>
+<p></p>
+<p>Here you will find a path to enter</p>
+<p><div class="help-box"><img src="path:images/100000000000023900000081BB4B0BBF.png"></img></div>You enter your 'arguments' as a name prepended by % or ! - if you want the date to be required in the URL you us %datecontext. If it is not required, then use !datecontext.</p>
+<p></p>
+<p>Once you've saved this pane, then you can step over to the 'Arguments' pane where you can tell Panels which context to assign this argument to. Click Change to select the assigned context.</p>
+<p><div class="help-box"><img src="path:images/10000000000002EC000000B0F0F08C92.png"></img></div>You will get a list of available contexts, which you can select. Each context may or may not have a settings form which you can also complete with further related information. (See below for programming your own context arguments).</p>
+<p><div class="help-box"><img src="path:images/100000000000011A00000183CCFBB676.png"></img></div></p>

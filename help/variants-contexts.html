@@ -1,0 +1,21 @@
+</p><h2>Setting up the Variant &#x2013; Contexts</h2><p>You may or may not need to add your own 'contexts' to the panel. Some context is already built in &#x2013; so for example if you have a 'node template', then the 'node' context is already there in the panel.</p>
+<p>The context is basically data which is available throughout the panels. If you go to the 'contexts' tab and look down at the bottom, you will see a huge list of data available.</p>
+<p><div class="help-box"><img src="path:images/10000000000002DD000000EF48DCDC56.png"></img></div>This summarises all the context data available. A context is given a keyword (like 'node') and you can reference it with %node. The data within it is referenced such: %node:title. This takes the title from the node.</p>
+<p>You'll see quite a few places in panels which allow this kind of usage. You will see others (such as input to Views Arguments) where a drop down list of all the context data is available. Even more powerfully there are some places you can enter your own PHP code and access this context data.</p>
+<p>In some cases you will find the standard context data isn't enough. For example we want to pass the all the taxonomy terms of the page to the view. The node has the standard %node:term-id for just the primary term. So we need to get the 'taxonomy term' context added into the panel.</p>
+<p>Go to the 'Contexts' tab. Here you will see the following screen:</p>
+<p><div class="help-box"><img src="path:images/100000000000023C000000A5437440F4.png"></img></div>As a note: until you see a line with a specific context in it (not an 'Add context' button next to it), this context isn't actually there (unless it is a standard in built context). The lines with the buttons next to them are simply options to add a context.</p>
+<p>There are 2 categories of context &#x2013; plain vanilla and relationships.</p>
+<ul>
+  <li>Normal contexts are those which don't necessarily have a special relationship with the node &#x2013; for example a 'user' context (which contains user data). We haven't used the contexts here much.</li><li>Relationship contexts are those which have a special relationship with the node (in this case) &#x2013; for example the taxonomy term which is referenced on that node or the author.</li>
+</ul>
+<p>Whichever you add, simply creates a new bit of contextual data to work with. The end result is the same &#x2013; each is just a context.</p>
+<p>We want to have the taxonomy terms related to our node, so we select (under the relationships heading), multiple terms from node (which are all the terms associated with the node)</p>
+<p><div class="help-box"><img src="path:images/10000000000002530000003A11F69AC8.png"></img></div></p>
+<p>We then click 'add relationship' which just adds this as a context. You get a configuration dialog.</p>
+<p><div class="help-box"><img src="path:images/100000000000025400000196432588C5.png"></img></div>Apart from selecting which vocabulary you want the term data from, you can leave everything else as suggested. The keyword is as defined above (such as %terms:XXX to get a value from this context). Click save.</p>
+<p>These values are now available as references (using %terms:XXXX) or in our case to our view. When we go back to our 'content' tab and choose to 'Add content' and add a view (in this case our testimonials view which takes an argument of taxonomy term id), we get this dialog box:</p>
+<p><div class="help-box"><img src="path:images/1000000000000218000000CBD9B7C226.png"></img></div>You can see (unlike in the other dialogs) that this has a drop down selection of all the available context data which can be passed into the view. As long as you have the 'CTools Views' module enabled, when you create an 'Argument' in your view, then this dialog box will ask you what to pass into that argument. Here we choose for the 'Term ID of all terms' to be passed in. Therefore when someone goes to a page about 'Studio Photography' which is categorised as such in our taxonomy, then only testimonial which are also categorised that way get shown in this panel.</p>
+<p></p>
+<p>That's pretty much it &#x2013; your content is now very dynamic.</p>
+<p>

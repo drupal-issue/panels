@@ -1,0 +1,46 @@
+<h2>Writing your own content types</h2><p>Content types are the snippets of content which you put into your panels. These are big things like views, CCK elements and widgets like the 'contact form' provided by the Contact module.</p>
+<p></p>
+<p>Not all modules integrate with panels &#x2013; in other words, they don't necessarily provide all their bits of content as snippets to panels. In this case you can write your own plugin to do this.</p>
+<p></p>
+<p>Lets take a really simple example. There is in fact a 'logo' content type in the main ctools/panels offering, but in our case we like to wrap it in &lt;h1&gt; tags and put a few keywords as the alternative text. Normally you'd do that in your page.tpl.php &#x2013; but if you are inserting the logo in a panel which is completely in charge of the page, then you can't do that. So in this case this code is copied from the ctools &gt; plugins &gt; content_types &gt; page folder &#x2013; the file is page_logo.inc.</p>
+<p></p>
+<p>First you need to make sure you create a folder called 'content_types' inside your ctools folder and implement hook_ctools_plugin_directory (see the context stuff for that). If this is in the same module as the contexts, all you need to do is create the folder.</p>
+<p></p>
+<p>Then you create your file called 'MYPLUGIN.inc' where MYPLUGIN is the name of your plugin. Ours is called 'olamalu_extra_logo.inc'. </p>
+<div><code>$plugin = array(</code></div>
+<div><code>'title' =&gt; t('Olamalu adapted logo'),</code></div>
+<div><code>'single' =&gt; TRUE,</code></div>
+<div><code>'icon' =&gt; 'icon_page.png',</code></div>
+<div><code>'description' =&gt; t('Add the logo trail as content &#x2013; ours is wrapped in H1.'),</code></div>
+<div><code>'category' =&gt; t('Page elements'),</code></div>
+<div><code>'render last' =&gt; TRUE,</code></div>
+<div><code>// Constructor.</code></div>
+<div><code>'content_types' =&gt; array('olamalu_panels_extra_logo'),</code></div>
+<div><code>// Name of a function which will render the block.</code></div>
+<div><code>'render callback' =&gt; 'olamalu_panels_extra_logo_render',</code></div>
+<div><code>);</code></div>
+<div><code></code></div>
+<div><code>/**</code></div>
+<div><code>* Output function for the 'olamalu_panels_extra_logo' content type.</code></div>
+<div><code>*</code></div>
+<div><code>* Outputs the logo for the current page with the site name and slogan as title.</code></div>
+<div><code>*/</code></div>
+<div><code>function olamalu_panels_extra_logo_render($subtype, $conf, $panel_args) {</code></div>
+<div><code>$logo = theme_get_setting('logo');</code></div>
+<div><code>if (!empty($logo)) {</code></div>
+<div><code>$block = new stdClass();</code></div>
+<div><code>$title = check_plain(variable_get('site_name', &quot;Home&quot;)) . ' '. check_plain(variable_get('site_slogan', &quot;&quot;));</code></div>
+<div><code>$image = '&lt;img src=&quot;' . $logo . '&quot; alt=&quot;' . $title . '&quot; /&gt;';</code></div>
+<div><code>$block-&gt;content = '&lt;h1&gt;' . l($image, '', array('html' =&gt; TRUE, 'attributes' =&gt; array('rel' =&gt; 'home', 'id' =&gt; 'logo', 'title' =&gt; $title))) . '&lt;/h1&gt;';</code></div>
+<div><code>}</code></div>
+<div><code></code></div>
+<div><code>return $block;</code></div>
+<div><code>}</code></div>
+<p>The $plugins array defines this according to the ctools pattern &#x2013; you need a title and description. The category is the tab on the side of adding content types into which your widget will go. Ours goes into the 'page elements' with the other page related stuff. The content_types is your content type unique name and the render callback is the function which will return a rendered HTML string.</p>
+<p></p>
+<p>This is implemented just below. In our case it simply takes the logo, gets the site slogan (where we store keywords) and wraps the logo in H1 tags with the alternative text being the site slogan. It sets the </p>
+<p>$block-&gt;content to that HTML output and returns the $block.</p>
+<p></p>
+<p>Flush the cache and you'll see your content type!</p>
+<p></p>
+<p>Little note: If you really want to see how plugins are programmed in lots of ways, then the best place is to look in the ctools code. Go to the ctools &gt; plugins folder &#x2013; in there you will see all the plugins in all the different guises.</p>

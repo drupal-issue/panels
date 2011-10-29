@@ -1,0 +1,12 @@
+<h2>Setting up the Variant - Setting the selection rules on the variant</h2><p>When you have a number of variants, Panels will go through each one in order (from top to bottom) and check the selection rules. If that rule matches, then that variant is chosen and the page is laid out according to it. So you want to create a logical set of selection rules from the first variant to the last. In our case we want to check the following:-</p><ul><li>If the node type is 'Gallery' then use the first Gallery variant</li><li>If the page type as defined in our taxonomy Page Type is 'blog' then use the Blog variant (second)</li><li>If the node type is 'Web Form' (using the web form module), then use that variant (third)</li><li>Otherwise as a catch all use the 'Standard Page' variant (fourth).</li></ul><p></p>
+<p>This is how we set up the Blog selection rules.</p>
+<p>We go to the Blog variant and select the tab 'Selection rules'. We get this form.</p>
+<p><div class="help-box"><img src="path:images/10000000000001B1000000F771B0FDA3.png"></img></div>Here we need to choose which selection rule to use from the drop down menu. If you click on it you'll see all sorts of options &#x2013; like node type or taxonomy term. We select taxonomy and click add.</p>
+<p><div class="help-box"><img src="path:images/100000000000011600000047EF795BB5.png"></img></div>We get a dialog box which pops up, allowing us to choose which vocabulary (Page Type) and what the term should be ('Blog').</p>
+<p><div class="help-box"><img src="path:images/100000000000014E000001062D7549DF.png"></img></div>And when we save we see that selection rule listed. It can always be deleted (x) or changed (gear).</p>
+<p><div class="help-box"><img src="path:images/10000000000003B0000000489E707C2C.png"></img></div>So, in summary. When someone creates a new page and sets the 'Page type' to 'Blog' (done in the taxonomy section of the edit form), then this particular layout will be chosen.</p>
+<p></p>
+<p>Panels works through the variants from top to bottom, looking at each selection in turn. This is like an 'if... else if' statement. So, </p>
+<p>if (selection criteria from variant 1 is true) { display content from variant 1 }</p>
+<p>else if (selection criteria from variant 2) { display content from 2 }</p>
+<p>else { if there is a variant with no selection criteria, use this. If not, use normal Drupal page}</p>

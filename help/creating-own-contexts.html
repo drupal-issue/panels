@@ -1,0 +1,105 @@
+<h2>Creating your own contexts</h2><p>Every so often you find yourself wanting data passed around your panels which you can't easily do out of the box. We had one example with Calendars (another fantastic module), where we wanted to pass dates around in a specific format. To do that we were able to create our own context for 'date'. You will need to write a module to do this and tell panels you have a context for it.</p>
+<p>You need to:-</p>
+<ul>
+  <li>Implement hook_ctools_plugin_directory (to tell it where the plugins are)</li>
+  <li>Create a plugins directory and inside it (optionally) a contexts directory</li>
+  <li>Define the context through code (as described below).</li>
+</ul>
+<p>To implement hook_ctools_plugin_directory</p>
+<div><code>function MYMODULE_ctools_plugin_directory($module, $plugin) {</code></div>
+<div><code>if (!empty($plugin)) {</code></div>
+<div><code>return &quot;ctools_plugin/$plugin&quot;;</code></div>
+<div><code>}</code></div>
+<p>}</p>
+<p>This says that we have stuff inside the directory ctools_plugin/contexts inside our own module. $plugin is the type of plugin being searched for, which is 'contexts' in this case. You don't have to do it exactly this way, but this is how Panels examples does it.</p>
+<p>We then create our directory structure and put a file 'datecontext.inc' in there, which represents the 'datecontext' we want to build.</p>
+<p><div class="help-box"><img src="path:images/10000000000000DE00000046E08704BA.png"></img></div></p>
+<p>datecontext.inc needs this following:-</p>
+<ul>
+  <li>$plugin array which is used to pick up all the details about this plugin</li>
+  <li>functions (which are defined in the plugin array).</li>
+</ul>
+<p>Our plugin array looks like this</p>
+<div><code>$plugin = array(</code></div>
+<div><code>'title' =&gt; t(&quot;Date context&quot;),</code></div>
+<div><code>'description' =&gt; t('A single date which is derived from PHP.'),</code></div>
+<div><code>'context' =&gt; 'olamalu_rota_context_create_datecontext', // creates context</code></div>
+<div><code>'context name' =&gt; 'datecontext',</code></div>
+<div><code>'settings form' =&gt; 'datecontext_settings_form',</code></div>
+<div><code>'keyword' =&gt; 'datecontext',</code></div>
+<div><code></code></div>
+<div><code>// Provides a list of items which are exposed as keywords.</code></div>
+<div><code>'convert list' =&gt; 'datecontext_convert_list',</code></div>
+<div><code>// Convert keywords into data.</code></div>
+<div><code>'convert' =&gt; 'datecontext_convert',</code></div>
+<div><code></code></div>
+<div><code>'placeholder form' =&gt; array(</code></div>
+<div><code>'#type' =&gt; 'textfield',</code></div>
+<div><code>'#description' =&gt; t('Enter data understood by create_date'),</code></div>
+<div><code>),</code></div>
+<p>);</p>
+<p>The title &amp; description are self-explanatory. The rest is</p><ul><li>context: a function in the file which creates the context. It must return a context object</li><li>context name: the context name used in the system</li><li>settings form: a function which creates a standard drupal $form array</li><li>keyword: as seen above</li><li>convert list: provides a list of sub key-words which are used by the convert function below</li><li>convert: converts the context into a string which is used in panel titles etc. This uses options from the convert list. For example we want the output of a date by 'day' (2011-01-01), 'month' (2011-01) or 'year' (2011).</li></ul>
+<p></p>
+<p>Code to create the context:-</p>
+<div><code>function olamalu_rota_context_create_datecontext($empty, $data = NULL, $conf = FALSE) {</code></div>
+<div><code>$context = new ctools_context('datecontext');</code></div>
+<div><code>$context-&gt;plugin = 'datecontext';</code></div>
+<div><code></code></div>
+<div><code>if ($empty) {</code></div>
+<div><code>return $context;</code></div>
+<div><code>}</code></div>
+<div><code>$context-&gt;data = new stdClass();</code></div>
+<div><code>if ($conf) {</code></div>
+<div><code>$context-&gt;data-&gt;date = check_plain($data['date_setting']);</code></div>
+<div><code>} else {</code></div>
+<div><code>$context-&gt;data-&gt;date = 'now';</code></div>
+<div><code>}</code></div>
+<div><code>return $context;</code></div>
+<p>}</p>
+<p>Here we create an object 'ctools_context' and then depending on the settings form (which takes an argument about the date) we create a date string inside $context-&gt;data. This string is used by the PHP create_date function.</p>
+<p>Code to create the settings form:-</p>
+<div><code>function datecontext_settings_form($conf, $external = FALSE) {</code></div>
+<div><code>if (empty($conf)) {</code></div>
+<div><code>$conf = array(</code></div>
+<div><code>'date_setting' =&gt; 'now',</code></div>
+<div><code>);</code></div>
+<div><code>}</code></div>
+<div><code>$form = array();</code></div>
+<div><code>$form['date_setting'] = array(</code></div>
+<div><code>'#type' =&gt; 'textfield',</code></div>
+<div><code>'#title' =&gt; t('Setting for Date'),</code></div>
+<div><code>'#size' =&gt; 50,</code></div>
+<div><code>'#description' =&gt; t('A setting understood by create_date'),</code></div>
+<div><code>'#default_value' =&gt; $conf['date_setting'],</code></div>
+<div><code>'#prefix' =&gt; '&lt;div class=&quot;clear-block no-float&quot;&gt;',</code></div>
+<div><code>'#suffix' =&gt; '&lt;/div&gt;',</code></div>
+<div><code>);</code></div>
+<div><code>return $form;</code></div>
+<p>}</p>
+<p>Just like any Drupal form we allow the user to enter the string understood by PHP create_date &#x2013; or if none we just take 'now'.</p>
+<p>Code to create the sub-keyword list:-</p>
+<div><code>function datecontext_convert_list() {</code></div>
+<div><code>return array(</code></div>
+<div><code>'day' =&gt; t('Day as Y-m-d'),</code></div>
+<div><code>'month' =&gt; t('Month'),</code></div>
+<div><code>'year' =&gt; t('Year'),</code></div>
+<div><code>);</code></div>
+<p>}</p>
+<p>Here we list out the options for converting date to day, month or year values. This is simply a list given to the person creating the panel to choose from when they are working with our context.</p>
+<p>Code to create the output of the conversion list:-</p>
+<div><code>function datecontext_convert($context, $type) {</code></div>
+<div><code>switch ($type) {</code></div>
+<div><code>case 'day':</code></div>
+<div><code>return date_format(date_create($context-&gt;data-&gt;date), 'Y-m-d');</code></div>
+<div><code>case 'month':</code></div>
+<div><code>return date_format(date_create($context-&gt;data-&gt;date), 'Y-m');</code></div>
+<div><code>case 'year':</code></div>
+<div><code>return date_format(date_create($context-&gt;data-&gt;date), 'Y');</code></div>
+<div><code>}</code></div>
+<p>}</p>
+<p>And here based on the selections above, the value is converted. Note the switch is on the same values as in the options above.</p>
+<p></p>
+<p>And voila! This context is now available in our panels. (Remember to flush the cache).</p>
+<p><div class="help-box"><img src="path:images/100000000000019B00000080DF7C8F65.png"></img></div>And when you click edit or add, you'll see the settings form we created</p>
+<p><div class="help-box"><img src="path:images/10000000000001A8000001204874DBAE.png"></img></div></p>
+<p>These examples were figured out from the Ctools Plugin Examples module inside the core Ctools package.</p>

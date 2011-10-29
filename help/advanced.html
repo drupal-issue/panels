@@ -1,0 +1,25 @@
+<h2>Advanced Information and Use Cases</h2>
+<h2>Ctools Plugin array</h2>
+<p>Every ctools plugin is defined by an array &#x2013; so if you're building your own content type, arguments, contexts etc. you'll find yourself defining this array at the beginning of your plugin</p>
+<p>$plugin = array(</p>
+<p>'key' =&gt; value,</p>
+<p>}</p>
+<p>There are multiple values and variables and so this is just the beginning of the documentation of ones we have found</p>
+<table><tbody>
+  <tr><td><p>Key</p></td><td><p>Values explained</p></td><td><p>Plugin Type</p></td><td><p>E.g.</p></td></tr>
+  <tr><td><p>title</p></td><td><p>Title of the plugin &#x2013; use t('XXXX') to translate</p></td><td><p></p></td><td><p>t('My title')</p></td></tr>
+  <tr><td><p>description </p></td><td><p>Description of the plugin &#x2013; use t('xxx') to translate</p></td><td><p></p></td><td><p>t('My desc')</p></td></tr>
+  <tr><td><p>icon</p></td><td><p>The related icon shown to the user (*.png file)</p></td><td><p>content_type</p></td><td><p>form_icon.png</p></td></tr>
+  <tr><td><p>category</p></td><td><p>The category shown to the user</p></td><td><p>content_type</p></td><td><p></p></td></tr>
+  <tr><td><p>render callback</p></td><td><p>The callback function to use in order to render this content type. See content.inc-&gt;ctools_content_render.</p></td><td><p>content_type</p></td><td><p></p></td></tr>
+  <tr><td><p>content_types</p></td><td><p>The constructor function for the content type</p></td><td><p>content_type</p></td><td><p></p></td></tr>
+  <tr><td><p>defaults</p></td><td><p>The default context.</p></td><td><p></p></td><td><p>array()</p></td></tr>
+  <tr><td><p>edit form</p></td><td><p>The configuration form function</p></td><td><p>content_type</p></td><td><p></p></td></tr>
+  <tr><td><p>all contexts</p></td><td><p>TRUE or FALSE. Tells ctools if all contexts should be passed to this plugin. See content.inc-&gt;ctools_content_select_context</p></td><td><p>content_type</p></td><td><p>TRUE</p></td></tr>
+  <tr><td><p>required context </p></td><td><p>Tells ctools which contexts are required by this plugin. Should be a ctools_required_context object</p></td><td><p>content_type</p></td><td><p>new ctools_context_required(t('Term'), array('term', 'terms'))</p><p>This creates a required context called Term &#x2013; with an array of context types to match (term, terms)</p></td></tr>
+  <tr><td><p>render last</p></td><td><p>TRUE or FALSE</p></td><td><p></p></td><td><p></p></td></tr>
+  <tr><td><p>single</p></td><td><p>TRUE or FALSE</p></td><td><p></p></td><td><p></p></td></tr>
+</table></tbody>
+<h2>Use Case: Putting administration forms into Panels</h2>
+<p>Whilst developing a new module which had quite a few administration forms for it (there are a bunch of our own tables we've added to the site install), we wondered if there was a way to create the entire administration interface via panels.</p>
+<p>In order to do that, we needed to get all the administration forms we created into a form acceptable to panels &#x2013; which could have meant creating a content type for each one. However, we found another more generic way of doing that. By exposing a hook which looked for definitions of all forms which could be shown in a panel, we were able to create just one form content type which can be inserted into a panel.</p>

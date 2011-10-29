@@ -1,0 +1,27 @@
+</p><h2>Installing Panels</h2>
+<p>Panels is made up of two parts &#x2013; CTools (Chaos Tools &#x2013; another merlinofchaos inspired contribution to Drupal) and Panels. Chaos Tools are the underpinnings &#x2013; a library of helpful tools and frameworks &#x2013; used by Panels and other modules (like Feeds). Panels is the other one. </p>
+<p>Install from http://drupal.org/project/panels and http://drupal.org/project/ctools</p>
+<p>Or alternatively use drush to download panels and ctools.</p>
+<p>There are lots of submodules in these which we found a bit confusing at the beginning, so here I'll list the ones we commonly use/enable.</p>
+<p>Chaos Tools (ctools)</p>
+<table><tbody>
+  <tr><td><p>Module</p></td><td><p>Comments</p></td></tr>
+  <tr><td><p>Bulk Export</p></td><td><p>This allows exporting and importing structures you've created &#x2013; a bit like Views Bulk Export. You develop on your dev site, export everything to code, then push your page manager pages with all their configuration to your live site just by updating the code.</p></td>
+  </tr><tr><td><p>Chaos Tools</p></td><td><p>This is core CTools and Panels requires it</p></td></tr>
+  <tr><td><p>CTools Ajax</p></td><td><p>We haven't used this one yet</p></td></tr>
+  <tr><td><p>CTools Plugin Example</p></td><td><p>This is a fantastic 'tutorial' on using CTools functionality. We don't enable the module, but we look at the code in it quite a bit. If you plan to do customisation, look at this stuff.</p></td></tr>
+  <tr><td><p>Custom content panels / rulesets</p></td><td><p>These create reusable components, but we haven't used them yet.</p></td></tr>
+  <tr><td><p>Page Manager</p></td><td><p>This provides a navigation menu in Site Building &gt; Pages which we find pretty useful to get around (it does duplicate the Panels Dashboard a bit which some people found a bit confusing)</p></td></tr>
+  <tr><td><p>Stylizer</p></td><td><p></p></td></tr>
+  <tr><td><p>Views Content Panes</p></td><td><p>This allows Views to be embedded into Panels &#x2013; probably one of the best bits of content to embed. We use these in nearly every page!</p></td></tr>
+</tbody></table>
+
+<p>Panels (panels)</p>
+
+<table><tbody>
+  <tr><td><p>Mini panels</p></td><td><p>As mentioned above this gives you the ability to create snippets to reuse in other panels or inside 'block' spaces. We find ourselves creating custom layouts instead of using these &#x2013; not sure which is best or if there's just personal preference.</p></td></tr>
+  <tr><td><p>Panel Nodes</p></td><td><p>In general we're using panels selection rules to override the way nodes display, so we haven't yet found ourselves using this. In general, you will not use page manager AND panel nodes in the same application. If you find yourself wanting a truly panel-node solution, the new panelizer module is a better solution anyway. It is possible that as we move forward, panel nodes will be ejected from Panels into their own project and we will favor Panelizer as the solution.</p></td></tr>
+  <tr><td><p>Panels</p></td><td><p>Core Panels</p></td></tr>
+  <tr><td><p>Panels In Place Editor</p></td><td><p>We tried to use the powerful drag and move features of this, but since we're a bit geeky we ended up just doing custom layouts instead.</p></td></tr>
+</table></tbody>
+<p>The panels dashboard: This is really kind of an overview; because Panels is so spread out, this brings everything into one place primarily to help you find it. You don't actually truly administrate things from here, but it's a good starting location to get to what you do want to administer. As such, I wouldn't really recommend editing pages from the panels dashboard. What it shows you from page manager is a pretty small snippet of what's available.</p><p>An important note: </p><p>We got burnt by this once and shame on us for not following/reading instructions. I seem to remember reading somewhere that Panels and CTools have coordinated releases &#x2013; so you should always be on the same version. I guess the latest one. I can't find where I read that.</p>

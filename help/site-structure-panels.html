@@ -1,0 +1,24 @@
+<h2>Site structure &#x2013; Panels</h2>
+<p>We now have the pieces in place to create our page and we can create our panel. We want every site page to look the same or similar, so we'll get Panels to intercept every request for a node and then lay it out. You do this by enabling the 'Node Template'.</p>
+<p>Go to Administer &gt; Site Building &gt; Panels &gt; Dashboard. </p>
+<p><div class="help-box"><img src="path:images/100000000000047700000201600658E6.png"></img></div></p>
+<p>Here, under 'Manage pages' you will see the templates. Enable the 'Node template' by clicking Enable.</p>
+<p><div class="help-box"><img src="path:images/100000000000022D000000F313102C01.png"></img></div></p>
+<p>Then click 'Edit', and you'll be taken to a Panels page where you can manage exactly how the page should look.</p>
+<p><div class="help-box"><img src="path:images/10000000000002B500000130D5E91AFA.png"></img></div>In the templates, you'll come across the concept of 'variant'. A variant is a group of things which determines if a page will be rendered using it and how the page will be rendered. If there are no variants then that template will do nothing and the page will render in the standard Drupal way. </p>
+<p>This will become clear as we create the variant. So we click 'Add a new variant'. This starts a little 4 step wizard</p>
+<p>1. Wizard &#x2013; basic information</p>
+<p><div class="help-box"><img src="path:images/1000000000000240000001964FD7EF99.png"></img></div>We get a form for basic variant information. All you need to do is enter a title &#x2013; something which describes what this variant is for. In our case it is the rendering of the 'Standard Page' across the site, so we call it that.</p>
+<p>Note that you can select optional features, but we tend to just get to the created variant where you can do all of this editing anyway. Click Create variant.</p>
+<p>The next step is to choose a layout</p>
+<p>2. Wizard &#x2013; choose layout</p>
+<p><div class="help-box"><img src="path:images/10000000000001CA000001D0A03C4AB5.png"></img></div>Panels gives you huge ability to chop and change between layouts &#x2013; 1, 2, 3 column layouts in brick or not. You'll want to choose a layout which suits your page. This can always be changed later (and in our case we will create a specific layout of our own). In the mean time we choose a 2 column simple layout.</p>
+<p>3. Wizard &#x2013; Layout Configuration</p>
+<p><div class="help-box"><img src="path:images/10000000000002790000020D308CEEF5.png"></img></div>Here you can add useful information to the layout and CSS being output. We often choose to 'Disable Drupal blocks/regions', as we get Panels to do it all. For those using standard themes as a basis, this generally removes all the stuff you see as regions in the 'Blocks' setup &#x2013; so no left and right sidebars (or blocks in the content region). In Garland based themes the header and footer blocks remain.</p>
+<p>You can also add a specific CSS ID or your own CSS (if you don't have access to the stylesheets, I guess). It's probably better to keep all styling in one place (in the stylesheets), which is why you can add your own ID to style this particular page. This ID is added at the root of the panel HTML, not at the root of the page HTML (for those familiar with page.tpl.php, the page tags just inside the &lt;body&gt; often have styling classes and Ids which come from there. It's only within $content that the panel HTML appears).</p>
+<p>4. Wizard &#x2013; Configure Content</p>
+<p><div class="help-box"><img src="path:images/10000000000003E80000019FB7FCFA69.png"></img></div>Finally you get to the place you can add content to the page. We generally add just the basic stuff here at first, because you can always come back and edit any part of the variant which you've configured so far. So in this case we change the Title to take the title from the node.</p>
+<p><div class="help-box"><img src="path:images/10000000000002370000007C5726FA61.png"></img></div>We'll come to a longer explanation of what the %node:title means &#x2013; but in summary it says take the %node context and use it's title.</p>
+<p>We click Create Variant, and we can see the fruits of our labour!</p>
+<p><div class="help-box"><img src="path:images/1000000000000304000001CE6CD7CE7A.png"></img></div>Just a quick note &#x2013; like Views, Panels doesn't save data (make it live) until you specifically ask it to. It makes sense when you have a production site, you don't want users to see your half-baked work until it's ready. So you simply use update. When ready, you must save. You'll see the following icon in the top right until you do.</p>
+<p><div class="help-box"><img src="path:images/10000000000000AB0000004442C216D7.png"></img></div></p>
